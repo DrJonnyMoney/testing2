@@ -77,6 +77,16 @@ def custom_static(filename):
 @app.route(base_prefix + '/')
 def index():
     return render_template('index.html')
-
+@app.route('/<path:path>')
+def catch_all(path):
+    # Try to serve from static first
+    if path.startswith('static/'):
+        return send_from_directory(".", path)
+    # Otherwise try to render as a template
+    try:
+        return render_template(path)
+    except:
+        # If all else fails, show the index page
+        return render_template("index.html")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8888, debug=True)
