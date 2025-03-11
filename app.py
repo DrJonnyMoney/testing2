@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, render_template
+from flask import Flask, send_from_directory, render_template, request
 import os
 import sys
 
@@ -12,5 +12,6 @@ def catch_all(path):
     print(f"Method: {request.method}", file=sys.stderr)
     print(f"Headers: {dict(request.headers)}", file=sys.stderr)
     return render_template("index.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8888, debug=True)
