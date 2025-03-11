@@ -1,0 +1,4 @@
+#!/command/with-contenv bash
+cd /home/jovyan/webapp
+exec 2>&1
+exec python -m gunicorn --bind 0.0.0.0:8888 app:app
