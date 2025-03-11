@@ -4,8 +4,14 @@ FROM kubeflownotebookswg/codeserver:latest
 # Switch to root to install packages and make modifications
 USER root
 
-# Find Python and install Flask and Gunicorn using python -m pip
-RUN which python3 && python3 -m pip install --no-cache-dir flask gunicorn
+# Install Python and pip
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Flask and Gunicorn
+RUN python3 -m pip install --no-cache-dir flask gunicorn
 
 # Create app directory and copy your web app files
 RUN mkdir -p /home/jovyan/webapp
