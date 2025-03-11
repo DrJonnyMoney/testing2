@@ -4,8 +4,8 @@ FROM kubeflownotebookswg/codeserver:latest
 # Switch to root to install packages and make modifications
 USER root
 
-# Install Flask and Gunicorn
-RUN pip install --no-cache-dir flask gunicorn
+# Find Python and install Flask and Gunicorn using python -m pip
+RUN which python3 && python3 -m pip install --no-cache-dir flask gunicorn
 
 # Create app directory and copy your web app files
 RUN mkdir -p /home/jovyan/webapp
@@ -35,7 +35,7 @@ RUN mkdir -p /etc/services.d/flask
 RUN echo '#!/command/with-contenv bash' > /etc/services.d/flask/run && \
     echo 'cd /home/jovyan/webapp' >> /etc/services.d/flask/run && \
     echo 'exec 2>&1' >> /etc/services.d/flask/run && \
-    echo 'exec gunicorn --bind 0.0.0.0:8888 app:app' >> /etc/services.d/flask/run && \
+    echo 'exec python3 -m gunicorn --bind 0.0.0.0:8888 app:app' >> /etc/services.d/flask/run && \
     chmod 755 /etc/services.d/flask/run && \
     chown ${NB_USER}:${NB_GID} /etc/services.d/flask/run
 
