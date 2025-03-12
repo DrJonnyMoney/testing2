@@ -1,7 +1,9 @@
 from flask import Flask, send_from_directory, render_template, request
 import os
 import sys
+base_prefix = os.environ.get('NB_PREFIX', '')
 
+print(base_prefix)
 # Create Flask app
 app = Flask(__name__)
 
